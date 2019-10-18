@@ -18,7 +18,7 @@ class UsbWatchDog(object):
             run = threading.Thread(target=self.run)
             run.daemon = False
             run.start()
-            
+
     def _read(self, byte):
         try:
             self._write(byte)
@@ -48,7 +48,7 @@ class UsbWatchDog(object):
             'timeout':self.heartbeat
         }
         return info
-        
+
     def run(self):
         ''' Interval ( in seconds ) = n/10,
         This number will always be rounded to the closest integer.
@@ -85,7 +85,7 @@ class UsbWatchDog(object):
             self.heartbeat = int(timeout) if 10 < int(timeout) <= 360 else 10
         except ValueError as e:
             logging.warning('Invalid type, integer is required. Error {}'.format(e))
-            raise TypeError        
+            raise TypeError
 
     def check_internet(self):
         ''' Test internet connection
@@ -94,7 +94,7 @@ class UsbWatchDog(object):
         try:
             urllib2.urlopen('http://google.com', timeout=5)
             return True
-        except urllib2.URLError as e: 
+        except urllib2.URLError as e:
             return False
 
 
@@ -102,9 +102,9 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
     parser = argparse.ArgumentParser(
         description='Python Script to allow you to control a usb watchdog')
-    parser.add_argument('port', type=str, 
+    parser.add_argument('port', type=str,
                         help='Serial port to use (e.g /dev/cu.wchussetila420)')
-    parser.add_argument('--hb', default=10, type=int, 
+    parser.add_argument('--hb', default=10, type=int,
                         help='Maximum amount of time without a hearbeat '
                         '(e.g. 180 seconds). 10 second increments only. '
                         'Default: 10 seconds, Max: 360')

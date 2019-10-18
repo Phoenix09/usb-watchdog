@@ -104,15 +104,14 @@ if __name__ == '__main__':
         description='Python Script to allow you to control a usb watchdog')
     parser.add_argument('port', type=str, 
                         help='Serial port to use (e.g /dev/cu.wchussetila420)')
-    parser.add_argument('--hb', nargs='?', const=10, type=int, 
+    parser.add_argument('--hb', default=10, type=int, 
                         help='Maximum amount of time without a hearbeat '
                         '(e.g. 180 seconds). 10 second increments only. '
                         'Default: 10 seconds, Max: 360')
     args = parser.parse_args()
-    hb = 10 if not args.hb else args.hb
 
     try:
-        device = UsbWatchDog(args.port, hb, daemon=False)
+        device = UsbWatchDog(args.port, args.hb, daemon=False)
         logging.debug('Device Information {}'.format(device.get_info()))
         device.run()
 
